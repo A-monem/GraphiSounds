@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>paperscript</title>
+
+	<style>
+		body, html{
+			background: black; 
+			width: 100%;
+			height: 100%;
+		}
+
+		canvas{
+			width: 100%;
+			height: 100%;
+		}  
+	</style>
+
+	<!-- loading paper.js -->
+	<script type="text/javascript" src="paper-full.js"></script>
+	<!-- loading howler.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.core.min.js"></script>
+
+	<!-- Define inlined PaperScript associate it with myCanvas -->
+	<script type="text/paperscript" canvas="myCanvas">
+		
+		var circles = [];
+		var sound = new Howl({
+			src: ['sounds/bubbles.mp3']
+		  });
+
+		function onKeyDown(event) {	
+			sound.play()
+
+			var maxPoint = new Point(view.size.width, view.size.height);
+			var randomPoint = Point.random();
+			var point = maxPoint * randomPoint;
+			var circlePath = new Path.Circle(point, 50);
+
+			circlePath.fillColor = Color.random();
+			circles.push(circlePath);
+		}
+
+		function onFrame(event){
+			for(var i=0; i < circles.length; i++){
+				circles[i].fillColor.hue += 1;
+				circles[i].scale(0.95);
+			}
+		}
+
+	</script>
+</head>
+<body>
+	<canvas id="myCanvas" resize></canvas>
+</body>
+</html>
